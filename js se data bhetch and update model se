@@ -57,6 +57,35 @@ update
         $res = $this->common->getSelectedOneDataWithCondition($tbl,['*'],['id'=>$id]);
         echo json_encode($res);
     }
+    
+    public function deleteById(){
+        $tbl = $this->input->post('table');
+        $id = $this->input->post('id');
+
+        if ($tbl == '' || $id == '') {
+            $dataToReturn['status'] = false;
+            $dataToReturn['msg'] = 'Something Went Wrong'; 
+            echo json_encode($dataToReturn);
+        die();
+        }
+
+        $cond = array(
+            'id' => $id
+        );
+
+        $res = $this->common->delete($tbl,$cond);
+        if ($res) {
+            $dataToReturn['status'] = true;
+            $dataToReturn['msg'] = 'Data Deleted Successfully'; 
+            echo json_encode($dataToReturn);
+        die();
+        }else{
+            $dataToReturn['status'] = false;
+            $dataToReturn['msg'] = 'Something Went Wrong'; 
+           echo json_encode($dataToReturn);
+        die();
+        }
+    }
 
 
 </script>
