@@ -1,0 +1,62 @@
+delet
+<td><a  href="javascript:deleteById('Generaltbl,<?=$row['id']?>');">Delete</a></td>
+
+update
+<td><button id="btn-action" _id="<?=$row['id']?>" _tbl="Generaltbl" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal"  class="btn btn-primary " >Edit</button></td>
+
+
+<script type="text/javascript">
+  
+  function deleteById(tbl,id) {
+      var res = getData(base_url+"/admin/deleteById","POST",{table:tbl,id:id})
+      if (res.status) {
+        showMsg(res.msg,'success') 
+        window.location.reload()
+      }else{
+        showMsg(res.msg,'danger') 
+      }
+  } 
+
+  $('body').on('click','#btn-action',function(){
+      var attrId = $(this).attr('_id')
+      var tbl = $(this).attr('_tbl')
+      var res = getData(base_url+"/admin/getData","POST",{id:attrId,tbl:tbl})
+      if (res){
+        $('input[name=id]').val(res.id)
+        $('input[name=number]').val(res.number)
+        $('input[name=date]').val(res.date)
+        $('input[name=head]').val(res.head)
+        $('input[name=subject_name]').val(res.subject_name)
+      }
+      });
+      
+      ynha se data upend form me
+
+  
+  /*default function get data*/
+    function getData(url,method,data){
+    
+       var dataToReturn = "";
+       $.ajax({
+                url     :   url,
+                method  :   method,
+                async   :   false,      
+                data    :   data,
+                success :   function(response){
+                  var responseObj = $.parseJSON(response);
+                  dataToReturn = responseObj;
+                } 
+    });
+    return dataToReturn;
+  }
+  
+  public function getData(){
+        $id = $this->input->post('id');
+        $tbl = $this->input->post('tbl');
+
+        $res = $this->common->getSelectedOneDataWithCondition($tbl,['*'],['id'=>$id]);
+        echo json_encode($res);
+    }
+
+
+</script>
