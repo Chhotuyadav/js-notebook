@@ -1,0 +1,49 @@
+###############html###############
+<div class="single-form">
+    <label for="captcha">Please enter the CAPTCHA code:</label>
+    <div class="row">
+        <div class="col-sm-6">
+            <input type="text"  onkeyup="validateCaptcha()" id="captcha" class="form-control" name="captcha">
+        </div>
+        <div class="col-sm-6">
+            <span id="captcha-challenge"></span>
+            <span style="position: relative;" type="button" onclick="resetCaptcha()"><i class="fa-solid fa-arrows-rotate"></i></span>
+        </div>
+        <div id="divID"></div>
+    </div>
+    <!-- <input type="password"  placeholder="Password " required name="password"> -->
+</div>
+###############javascript###############
+<script type="text/javascript">
+        var captcha_challenge = generateCaptcha();
+        // generate captcha
+        function generateCaptcha() {
+          var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+          var length = 6; // set the length of the CAPTCHA challenge
+          var captcha = "";
+          for (var i = 0; i < length; i++) {
+            captcha += chars[Math.floor(Math.random() * chars.length)];
+          }
+          return captcha;
+        }
+
+        document.getElementById("captcha-challenge").textContent = captcha_challenge;           
+        function validateCaptcha() {
+          var captcha_input = document.getElementById("captcha").value;
+          if (captcha_input == captcha_challenge) {
+            document.getElementById("divID").innerHTML = "CAPTCHA validation successful!";
+            document.getElementById("registerbtn").disabled = false;
+          } else {
+            document.getElementById("divID").innerHTML = "CAPTCHA validation failed. Please try again.";
+            document.getElementById("registerbtn").disabled = true;
+          }
+        }
+        function resetCaptcha() {
+          captcha_challenge = generateCaptcha();
+          document.getElementById("captcha-challenge").textContent = captcha_challenge;
+          document.getElementById("captcha").value = "";
+        }
+    </script>
+
+
+
